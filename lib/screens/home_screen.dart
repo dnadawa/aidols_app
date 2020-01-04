@@ -8,6 +8,7 @@ import 'package:aidols_app/screens/profile_screen.dart';
 import 'package:aidols_app/screens/search_screen.dart';
 import 'package:provider/provider.dart';
 
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,7 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController();
+
   }
+
 
   @override
   Widget build(BuildContext context) {

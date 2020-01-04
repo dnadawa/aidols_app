@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 class AuthService {
   static final _auth = FirebaseAuth.instance;
   static final _firestore = Firestore.instance;
+  static QuerySnapshot subscription2;
+  static var user;
+  static CollectionReference collectionReference  = Firestore.instance.collection("users");
 
   static void signUpUser(
       BuildContext context, String name, String email, String password) async {
@@ -41,9 +44,22 @@ class AuthService {
     try {
       //Provider.of<UserData>(context).currentUserName = name;
       Provider.of<UserData>(context).currentUserEmail = email;
+      var uid = await getUname(context);
+      Provider.of<UserData>(context).currentUserName = uid;
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
       print(e);
     }
   }
+
+  static getUname(BuildContext context) async{
+    subscription2 = await collectionReference.where("email", isEqualTo: Provider.of<UserData>(context).currentUserEmail).getDocuments();
+    user = subscription2.documents;
+    print(user[0].data['name']);
+    return user[0].data['name'];
+
+  }
+
+
+
 }
