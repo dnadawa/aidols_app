@@ -19,12 +19,14 @@ class DatabaseService {
   }
 
   static void createPost(Post post) {
-    postsRef.document(post.authorId).collection('usersPosts').add({
+    postsRef.add({
       'imageUrl': post.imageUrl,
       'videoUrl':post.videoUrl,
       'caption': post.caption,
-      'likes': post.likes,
-      'authorId': post.authorId,
+      'likes_count': post.likes_count,
+      'liked_users': post.liked_users,
+      'authorID': post.authorId,
+      'author': post.authorName,
       'timestamp': post.timestamp,
     });
   }

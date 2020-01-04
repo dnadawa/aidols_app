@@ -134,30 +134,43 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
 
   _submit() async {
-    if (!_isLoading &&
-        (_image != null || _videoFile != null) &&
-        _caption.isNotEmpty) {
+
+    if (!_isLoading && (_image != null || _videoFile != null) && _caption.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
+      print('clicked');
 
       // Create post
-      String imageUrl = await StorageService.uploadPost(_image);
-      String videoUrl = await StorageService.uploadPost(_videoFile);
+      String imageUrl2,videoUrl2 = '';
+      if(_image!=null){
+         imageUrl2 = await StorageService.uploadPost(_image);
+      }
+      if(_videoFile!=null){
+         videoUrl2 = await StorageService.uploadPost(_videoFile);
+      }
+      print(imageUrl2);
+      print(videoUrl2);
+
       Post post = Post(
-        imageUrl: imageUrl,
-        videoUrl: videoUrl,
+        imageUrl: imageUrl2,
+        videoUrl: videoUrl2,
         caption: _caption,
-        likes: {},
-        authorId: Provider.of<UserData>(context).currentUserId,
+        liked_users: [],
+        likes_count: 0,
+        authorId: Provider.of<UserData>(context).currentUserEmail,
+        authorName: Provider.of<UserData>(context).currentUserName,
         timestamp: Timestamp.fromDate(DateTime.now()),
       );
+
       DatabaseService.createPost(post);
 
       // Reset data
       _captionController.clear();
 
       setState(() {
+        imageUrl2 = '';
+        videoUrl2 = '';
         _caption = '';
         _image = null;
         _videoFile = null;

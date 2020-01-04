@@ -8,6 +8,7 @@ import 'package:aidols_app/screens/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:aidols_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class FeedScreen extends StatefulWidget {
   static final String id = 'feed_screen';
@@ -23,7 +24,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen>{
  final String logged_user;
 
-  final CollectionReference collectionReference  = Firestore.instance.collection("posts").document('q01YFfzlGDOrn2Etek3awyskCnk1').collection('usersPosts');
+  final CollectionReference collectionReference  = Firestore.instance.collection("posts");
   List<DocumentSnapshot> posts;
   StreamSubscription<QuerySnapshot> subscription;
 
@@ -82,6 +83,12 @@ class _FeedScreenState extends State<FeedScreen>{
                   String caption = posts[i].data['caption'];
                   int likes = posts[i].data['likes_count'];
 
+                  String author = posts[i].data['author'];
+                  DateTime time = posts[i].data['timestamp'].toDate();
+                  //DateTime x = DateTime.parse(time);
+                  var formatter = new DateFormat('yyyy-MM-dd HH:mm');
+                  String formattedDate = formatter.format(time);
+
 
                   return Container(
                     margin: EdgeInsets.all(15),
@@ -94,9 +101,9 @@ class _FeedScreenState extends State<FeedScreen>{
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: ListTile(
-                            subtitle: Text('2012.22.12',style: TextStyle(fontSize: 20),),
+                            subtitle: Text(formattedDate,style: TextStyle(fontSize: 20),),
                             leading: CircleAvatar(backgroundColor: Colors.blue,radius: 30,),
-                            title: Text('Sanjula Hasaranga',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                            title: Text(author,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                           ),
                         ),
                         Padding(

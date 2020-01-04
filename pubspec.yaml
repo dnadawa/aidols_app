@@ -45,6 +45,7 @@ dev_dependencies:
   flutter_cache_manager: ^1.1.2
   google_sign_in: ^4.0.1+1
   cloud_firestore: ^0.13.0+1
+  intl: ^0.15.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

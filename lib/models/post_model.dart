@@ -5,17 +5,21 @@ class Post {
   final String imageUrl;
   final String videoUrl;
   final String caption;
-  final dynamic likes;
+  final dynamic liked_users;
   final String authorId;
+  final int likes_count;
   final Timestamp timestamp;
+  final String authorName;
 
   Post({
     this.id,
     this.imageUrl,
     this.videoUrl,
     this.caption,
-    this.likes,
+    this.liked_users,
+    this.likes_count,
     this.authorId,
+    this.authorName,
     this.timestamp,
   });
 
@@ -25,7 +29,9 @@ class Post {
       imageUrl: doc['imageUrl'],
       videoUrl: doc['videoUrl'],
       caption: doc['caption'],
-      likes: doc['likes'],
+      likes_count: doc['likes_count'],
+      liked_users: doc['liked_users'],
+      authorName: doc['authorName'],
       authorId: doc['authorId'],
       timestamp: doc['timestamp'],
     );

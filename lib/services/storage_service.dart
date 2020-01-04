@@ -37,15 +37,33 @@ class StorageService {
     return compressedImageFile;
   }
 
-  static Future<String> uploadPost(File imageFile) async {
-    String photoId = Uuid().v4();
-    File image = await compressImage(photoId, imageFile);
-    StorageUploadTask uploadTask = storageRef
-        .child('images/posts/post_$photoId.jpg')
-        .putFile(image);
-    StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
-    String downloadUrl = await storageSnap.ref.getDownloadURL();
-    return downloadUrl;
+  static Future uploadPost(File imageFile) async {
+//    String photoId = Uuid().v4();
+//    File image = await compressImage(photoId, imageFile);
+//    StorageUploadTask uploadTask = storageRef
+//        .child('images/posts/post_$photoId.jpg')
+//        .putFile(image);
+//    StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
+//    String downloadUrl = await storageSnap.ref.getDownloadURL();
+//    return downloadUrl;
+
+    try{
+      String photoId = Uuid().v4();
+      StorageReference ref = FirebaseStorage.instance.ref().child('images/posts/post_$photoId.jpg');
+      StorageUploadTask uploadTask = ref.putFile(imageFile);
+      final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+      String fileUrl = (await downloadUrl.ref.getDownloadURL());
+      print("url is $fileUrl");
+      return fileUrl;
+    }
+    catch(e){
+      print(e);
+    }
+
+
+
+
+
   }
 
 }
