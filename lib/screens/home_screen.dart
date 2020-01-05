@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SearchScreen(),
           CreatePostScreen(),
           ActivityScreen(),
-          ProfileScreen(userId: Provider.of<UserData>(context).currentUserId),
+          ProfileScreen(userId: Provider.of<UserData>(context).currentUserId,email: Provider.of<UserData>(context).currentUserEmail,),
         ],
         onPageChanged: (int index) {
           setState(() {

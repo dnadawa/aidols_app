@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:aidols_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:video_player/video_player.dart';
 
 class FeedScreen extends StatefulWidget {
   static final String id = 'feed_screen';
@@ -42,6 +43,14 @@ class _FeedScreenState extends State<FeedScreen>{
         posts = datasnapshot.documents;
       });
     });
+
+    _controller = VideoPlayerController.network(
+        'https://youtu.be/ShdolVpL1x4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+
     print(logged_user);
   }
 
@@ -53,7 +62,7 @@ class _FeedScreenState extends State<FeedScreen>{
 
   }
 
-
+ VideoPlayerController _controller;
 
 
   @override
@@ -76,16 +85,18 @@ class _FeedScreenState extends State<FeedScreen>{
           Container(
             child: Expanded(
               child: posts!=null?ListView.builder(
+
                 shrinkWrap: true,
                 itemCount: posts.length,
 
                 itemBuilder: (context,i){
                   String caption = posts[i].data['caption'];
                   int likes = posts[i].data['likes_count'];
+                  String image_url = posts[i].data['imageUrl'];
+                  String video_url =  posts[i].data['videoUrl'];
 
                   String author = posts[i].data['author'];
                   DateTime time = posts[i].data['timestamp'].toDate();
-                  //DateTime x = DateTime.parse(time);
                   var formatter = new DateFormat('yyyy-MM-dd HH:mm');
                   String formattedDate = formatter.format(time);
 
@@ -106,6 +117,24 @@ class _FeedScreenState extends State<FeedScreen>{
                             title: Text(author,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                           ),
                         ),
+
+
+
+//                        _controller.value.initialized
+//                            ? AspectRatio(
+//                          aspectRatio: _controller.value.aspectRatio,
+//                          child: VideoPlayer(_controller),
+//                        )
+//                            : Container(),
+
+
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Image(image: NetworkImage(image_url)),
+                        ),
+                        
+                        
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: Text(caption,
