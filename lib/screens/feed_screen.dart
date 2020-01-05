@@ -1,7 +1,7 @@
 
 
 import 'dart:async';
-
+import 'package:chewie/chewie.dart';
 
 import 'package:aidols_app/models/user_data.dart';
 import 'package:aidols_app/screens/comments.dart';
@@ -29,6 +29,10 @@ class _FeedScreenState extends State<FeedScreen>{
   List<DocumentSnapshot> posts;
   StreamSubscription<QuerySnapshot> subscription;
 
+ VideoPlayerController _videoPlayerController;
+ Future<void> _initializeVideoPlayerFuture;
+
+
   final String email;
   _FeedScreenState(this.logged_user, this.email);
 
@@ -44,12 +48,6 @@ class _FeedScreenState extends State<FeedScreen>{
       });
     });
 
-    _controller = VideoPlayerController.network(
-        'https://youtu.be/ShdolVpL1x4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
 
     print(logged_user);
   }
@@ -58,11 +56,12 @@ class _FeedScreenState extends State<FeedScreen>{
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _videoPlayerController.dispose();
     subscription?.cancel();
 
   }
 
- VideoPlayerController _controller;
+
 
 
   @override
@@ -94,11 +93,18 @@ class _FeedScreenState extends State<FeedScreen>{
                   int likes = posts[i].data['likes_count'];
                   String image_url = posts[i].data['imageUrl'];
                   String video_url =  posts[i].data['videoUrl'];
+                  print(video_url);
 
                   String author = posts[i].data['author'];
                   DateTime time = posts[i].data['timestamp'].toDate();
                   var formatter = new DateFormat('yyyy-MM-dd HH:mm');
                   String formattedDate = formatter.format(time);
+
+
+                  _videoPlayerController = VideoPlayerController.network(video_url!=''?video_url:'',
+                  );
+
+                  _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
 
                   return Container(
@@ -118,17 +124,17 @@ class _FeedScreenState extends State<FeedScreen>{
                           ),
                         ),
 
-
-
-//                        _controller.value.initialized
-//                            ? AspectRatio(
-//                          aspectRatio: _controller.value.aspectRatio,
-//                          child: VideoPlayer(_controller),
-//                        )
-//                            : Container(),
-
-
-
+                        video_url!=''?
+                        Chewie(
+                          key: UniqueKey(),
+                          controller: ChewieController(
+                            videoPlayerController: _videoPlayerController,
+                            autoInitialize: true,
+                            looping: false,
+                            allowFullScreen: false,
+                            aspectRatio: 3/2,
+                          ),
+                        ):
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Image(image: NetworkImage(image_url)),
