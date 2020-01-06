@@ -38,9 +38,9 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO: implement initStated
     super.initState();
-    subscription = collectionReference.where('authorID', isEqualTo: email).snapshots().listen((datasnapshot){
+    subscription = collectionReference.where('authorID', isEqualTo: email).orderBy('timestamp',descending: true).snapshots().listen((datasnapshot){
       setState(() {
         images = datasnapshot.documents;
       });
@@ -54,6 +54,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     subscription?.cancel();
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
 
 
-          return Column(
+          return ListView(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
@@ -200,6 +201,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
                     GridView.builder(
                       shrinkWrap: true,
+                        physics: ScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                         itemCount: images.length,
 

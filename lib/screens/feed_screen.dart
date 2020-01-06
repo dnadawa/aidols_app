@@ -52,7 +52,7 @@ class _FeedScreenState extends State<FeedScreen>{
     });
 
 
-    print(logged_user);
+    print("Logged User is $logged_user");
   }
 
   @override

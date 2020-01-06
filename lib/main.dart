@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aidols_app/models/user_data.dart';
@@ -6,17 +8,71 @@ import 'package:aidols_app/screens/home_screen.dart';
 import 'package:aidols_app/screens/login_screen.dart';
 import 'package:aidols_app/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final CollectionReference userRef  = Firestore.instance.collection("users");
+  var user;
+  QuerySnapshot subscription;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+
+  }
+
+  getName(String x,BuildContext context) async {
+    subscription = await userRef.where('email', isEqualTo: x).getDocuments();
+    user = subscription.documents;
+//    String y = user[0].data['name'];
+
+    //return y;
+
+    //Provider.of<UserData>(context).currentUserName = y;
+  }
+
+
+
   Widget _getScreenId() {
     return StreamBuilder<FirebaseUser>(
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
+
           Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
-          Provider.of<UserData>(context).currentUserName = snapshot.data.displayName;
+          String x = snapshot.data.email;
+          Provider.of<UserData>(context).currentUserEmail = x;
+
+          getName(x,context);
+          String y = user[0].data['name'];
+          Provider.of<UserData>(context).currentUserName = y;
+          print('User is $y');
+
+
+         // print("Email is $x");
+
+
+
           return HomeScreen();
         } else {
           return LoginScreen();
@@ -25,7 +81,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     var changeNotifierProvider = ChangeNotifierProvider(

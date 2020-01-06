@@ -57,7 +57,7 @@ class _CommentsState extends State<Comments> {
     // TODO: implement initState
     super.initState();
     getpro();
-     collectionReference  = Firestore.instance.collection("posts").document('q01YFfzlGDOrn2Etek3awyskCnk1').collection('usersPosts').document(docId).collection('comments');
+     collectionReference  = Firestore.instance.collection("posts").document(docId).collection('comments');
      subscription = collectionReference.snapshots().listen((datasnapshot){
       setState(() {
         comments = datasnapshot.documents;
@@ -161,7 +161,7 @@ class _CommentsState extends State<Comments> {
 
 
                   final CollectionReference collectionReference  = Firestore.instance.collection("posts")
-                      .document('q01YFfzlGDOrn2Etek3awyskCnk1').collection('usersPosts').document(docId).collection('comments');
+                      .document(docId).collection('comments');
                   Map data =<String, dynamic> {
                     'comment': comment.text,
                     'user': uid,
