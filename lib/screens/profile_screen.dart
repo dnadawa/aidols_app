@@ -7,6 +7,8 @@ import 'package:aidols_app/models/user_model.dart';
 import 'package:aidols_app/screens/edit_profile_screen.dart';
 import 'package:aidols_app/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userId;
@@ -30,6 +32,9 @@ class ProfileScreenState extends State<ProfileScreen> {
   StreamSubscription<QuerySnapshot> subscription;
 
   ProfileScreenState(this.email);
+
+  VideoPlayerController _videoPlayerController;
+  Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
@@ -201,11 +206,34 @@ class ProfileScreenState extends State<ProfileScreen> {
                         itemBuilder: (contex,i){
 
                           String imgPath = images[i].data['imageUrl'];
+                          String video_url = images[i].data['videoUrl'];
 
-                          return Padding(
-                            padding: const EdgeInsets.all(2),
-                            child: Image(image: NetworkImage(imgPath),fit: BoxFit.cover,),
-                          );
+                          _videoPlayerController = VideoPlayerController.network(video_url!=''?video_url:'',);
+                          _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+
+
+                        return video_url!=''?Chewie(
+                              key: UniqueKey(),
+                              controller: ChewieController(
+                                videoPlayerController: _videoPlayerController,
+                                autoInitialize: true,
+                                looping: false,
+                                allowFullScreen: false,
+                                showControls: false,
+                                aspectRatio: 1,
+                              ),
+                        ):Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Image(image: NetworkImage(imgPath),fit: BoxFit.cover,),
+                        );
+
+
+
+
+//                          return imgPath!=''?Padding(
+//                            padding: const EdgeInsets.all(2),
+//                            child: Image(image: NetworkImage(imgPath),fit: BoxFit.cover,),
+//                          ):null;
 
                         },
 

@@ -142,7 +142,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       print('clicked');
 
       // Create post
-      String imageUrl2,videoUrl2 = '';
+      String imageUrl2='';
+          String videoUrl2 = '';
       if(_image!=null){
          imageUrl2 = await StorageService.uploadPost(_image);
       }

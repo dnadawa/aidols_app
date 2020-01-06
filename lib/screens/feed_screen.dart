@@ -26,6 +26,9 @@ class _FeedScreenState extends State<FeedScreen>{
  final String logged_user;
 
   final CollectionReference collectionReference  = Firestore.instance.collection("posts");
+ final CollectionReference userRef  = Firestore.instance.collection("users");
+ var subscription2;
+  var user;
   List<DocumentSnapshot> posts;
   StreamSubscription<QuerySnapshot> subscription;
 
@@ -60,7 +63,16 @@ class _FeedScreenState extends State<FeedScreen>{
     subscription?.cancel();
 
   }
+    String propic;
+   Future<String> getImage(String author)async{
+    subscription2 = await userRef.where('email',isEqualTo: author).getDocuments();
+    user = await subscription2.documents;
+    propic = await user[0].data['profileImageUrl'];
 
+
+    return propic;
+
+  }
 
 
 
@@ -96,16 +108,19 @@ class _FeedScreenState extends State<FeedScreen>{
                   print(video_url);
 
                   String author = posts[i].data['author'];
+                  String uid = posts[i].data['authorID'];
                   DateTime time = posts[i].data['timestamp'].toDate();
                   var formatter = new DateFormat('yyyy-MM-dd HH:mm');
                   String formattedDate = formatter.format(time);
 
 
-                  _videoPlayerController = VideoPlayerController.network(video_url!=''?video_url:'',
-                  );
+                  _videoPlayerController = VideoPlayerController.network(video_url!=''?video_url:'',);
 
                   _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
+
+                  var x = getImage(uid);
+                  print(x);
 
                   return Container(
                     margin: EdgeInsets.all(15),
@@ -118,8 +133,9 @@ class _FeedScreenState extends State<FeedScreen>{
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: ListTile(
+                            key: UniqueKey(),
                             subtitle: Text(formattedDate,style: TextStyle(fontSize: 20),),
-                            leading: CircleAvatar(backgroundColor: Colors.blue,radius: 30,),
+                            leading: CircleAvatar(backgroundImage: NetworkImage(x.toString()),radius: 30,),
                             title: Text(author,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                           ),
                         ),
