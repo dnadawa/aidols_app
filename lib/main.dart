@@ -24,49 +24,40 @@ class _MyAppState extends State<MyApp> {
   QuerySnapshot subscription;
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-
-
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-
-
-  }
-
-  getName(String x,BuildContext context) async {
-    subscription = await userRef.where('email', isEqualTo: x).getDocuments();
-    user = subscription.documents;
-//    String y = user[0].data['name'];
-
-    //return y;
-
-    //Provider.of<UserData>(context).currentUserName = y;
-  }
-
 
 
   Widget _getScreenId() {
+
+
+
+    getName(String x,BuildContext context) async {
+      subscription = await userRef.where('email', isEqualTo: x).getDocuments();
+      user = subscription.documents;
+//    String y = user[0].data['name'];
+
+      //return y;
+
+      //Provider.of<UserData>(context).currentUserName = y;
+    }
+
+
     return StreamBuilder<FirebaseUser>(
       stream: FirebaseAuth.instance.onAuthStateChanged,
+
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
+
 
           Provider.of<UserData>(context).currentUserId = snapshot.data.uid;
           String x = snapshot.data.email;
           Provider.of<UserData>(context).currentUserEmail = x;
 
-          getName(x,context);
-          String y = user[0].data['name'];
-          Provider.of<UserData>(context).currentUserName = y;
-          print('User is $y');
+          getName(x,context).then((_){
+            String y = user[0].data['name'];
+            Provider.of<UserData>(context).currentUserName = y;
+            print('User is $y');
+          });
+
 
 
          // print("Email is $x");
