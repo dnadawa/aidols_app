@@ -45,7 +45,7 @@ class _FeedScreenState extends State<FeedScreen>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    subscription = collectionReference.snapshots().listen((datasnapshot){
+    subscription = collectionReference.orderBy("timestamp",descending: true).snapshots().listen((datasnapshot){
       setState(() {
         posts = datasnapshot.documents;
       });

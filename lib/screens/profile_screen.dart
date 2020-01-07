@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:aidols_app/services/auth_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         images = datasnapshot.documents;
       });
     });
+    print(email);
   }
 
   @override
@@ -199,11 +201,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Divider(),
 
-                    GridView.builder(
+                    images!=null?GridView.builder(
                       shrinkWrap: true,
                         physics: ScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                        itemCount: images.length,
+                        itemCount: images!=null?images.length:0,
 
                         itemBuilder: (contex,i){
 
@@ -242,7 +244,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
 
 
-                    ),
+                    ):Center(child: Text("No Posts",style: TextStyle(fontSize: 30),)),
 
 
                   ],
