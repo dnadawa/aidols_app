@@ -159,6 +159,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         caption: _caption,
         liked_users: [],
         likes_count: 0,
+        com_count: 0,
         authorId: Provider.of<UserData>(context).currentUserEmail,
         authorName: Provider.of<UserData>(context).currentUserName,
         timestamp: Timestamp.fromDate(DateTime.now()),

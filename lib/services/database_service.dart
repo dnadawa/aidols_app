@@ -27,6 +27,7 @@ class DatabaseService {
       'liked_users': post.liked_users,
       'authorID': post.authorId,
       'author': post.authorName,
+      'com_count': post.com_count,
       'timestamp': post.timestamp,
     });
   }

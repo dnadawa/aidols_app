@@ -10,12 +10,14 @@ class Post {
   final int likes_count;
   final Timestamp timestamp;
   final String authorName;
+  final int com_count;
 
   Post({
     this.id,
     this.imageUrl,
     this.videoUrl,
     this.caption,
+    this.com_count,
     this.liked_users,
     this.likes_count,
     this.authorId,
@@ -32,6 +34,7 @@ class Post {
       likes_count: doc['likes_count'],
       liked_users: doc['liked_users'],
       authorName: doc['authorName'],
+      com_count: doc['com_count'],
       authorId: doc['authorId'],
       timestamp: doc['timestamp'],
     );

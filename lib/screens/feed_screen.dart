@@ -98,7 +98,7 @@ String fuckingloger;
           ),
         ),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Color(0xffb0bec5),
       body: Column(
         children: <Widget>[
           Container(
