@@ -9,8 +9,16 @@ import 'package:aidols_app/screens/login_screen.dart';
 import 'package:aidols_app/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(
+  home: SplashScreen(
+      seconds: 4,
+      navigateAfterSeconds: new MyApp(),
+      imageBackground: AssetImage('assets/images/logo.gif'),
+
+  ),
+));
 
 class MyApp extends StatefulWidget {
   @override
