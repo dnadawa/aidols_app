@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          FeedScreen(logged_user: Provider.of<UserData>(context).currentUserName,email: Provider.of<UserData>(context).currentUserEmail,),
+          FeedScreen(logged_user: logged,email: Provider.of<UserData>(context).currentUserEmail,),
           SearchScreen(),
           CreatePostScreen(),
           ActivityScreen(),

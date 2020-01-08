@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'package:aidols_app/services/video_wid.dart';
 import 'package:chewie/chewie.dart';
-
+import 'package:provider/provider.dart';
 import 'package:aidols_app/models/user_data.dart';
 import 'package:aidols_app/screens/comments.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class _FeedScreenState extends State<FeedScreen>{
   final String email;
   _FeedScreenState(this.logged_user, this.email);
 
-
+String fuckingloger;
 
   @override
   void initState() {
@@ -56,7 +56,9 @@ class _FeedScreenState extends State<FeedScreen>{
     });
 
 
-    print("Logged User is $logged_user");
+
+
+
   }
 
 
@@ -120,8 +122,9 @@ class _FeedScreenState extends State<FeedScreen>{
                   var formatter = new DateFormat('yyyy-MM-dd HH:mm');
                   String formattedDate = formatter.format(time);
 
+                  fuckingloger =  Provider.of<UserData>(context).currentUserName;
 
-
+                  print("Logged User is $fuckingloger");
 
                   var x = getImage(uid);
                   print(x);
@@ -234,7 +237,7 @@ class _FeedScreenState extends State<FeedScreen>{
 
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Comments(docId: posts[i].documentID,uid: logged_user,email: email,)),
+                            MaterialPageRoute(builder: (context) => Comments(docId: posts[i].documentID,uid: fuckingloger,email: email,)),
                           );
 
 
