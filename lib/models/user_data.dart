@@ -6,4 +6,5 @@ class UserData extends ChangeNotifier {
   String currentUserEmail;
   String currentUserName;
 
+
 }

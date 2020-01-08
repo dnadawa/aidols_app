@@ -1,6 +1,7 @@
 
 
 import 'dart:async';
+import 'package:aidols_app/services/video_wid.dart';
 import 'package:chewie/chewie.dart';
 
 import 'package:aidols_app/models/user_data.dart';
@@ -26,9 +27,12 @@ class _FeedScreenState extends State<FeedScreen>{
  final String logged_user;
 
   final CollectionReference collectionReference  = Firestore.instance.collection("posts");
+ CollectionReference collectionReference2;
  final CollectionReference userRef  = Firestore.instance.collection("users");
  var subscription2;
+ QuerySnapshot subscription3;
   var user;
+  var comments;
   List<DocumentSnapshot> posts;
   StreamSubscription<QuerySnapshot> subscription;
 
@@ -54,6 +58,8 @@ class _FeedScreenState extends State<FeedScreen>{
 
     print("Logged User is $logged_user");
   }
+
+
 
   @override
   void dispose() {
@@ -105,6 +111,7 @@ class _FeedScreenState extends State<FeedScreen>{
                   int likes = posts[i].data['likes_count'];
                   String image_url = posts[i].data['imageUrl'];
                   String video_url =  posts[i].data['videoUrl'];
+                  String comcount = posts[i].data['com_count'].toString();
                   print(video_url);
 
                   String author = posts[i].data['author'];
@@ -114,9 +121,6 @@ class _FeedScreenState extends State<FeedScreen>{
                   String formattedDate = formatter.format(time);
 
 
-                  _videoPlayerController = VideoPlayerController.network(video_url!=''?video_url:'',);
-
-                  _initializeVideoPlayerFuture = _videoPlayerController.initialize();
 
 
                   var x = getImage(uid);
@@ -140,21 +144,33 @@ class _FeedScreenState extends State<FeedScreen>{
                           ),
                         ),
 
-                        video_url!=''?
-                        Chewie(
-                          key: UniqueKey(),
-                          controller: ChewieController(
-                            videoPlayerController: _videoPlayerController,
-                            autoInitialize: true,
-                            looping: false,
-                            allowFullScreen: false,
-                            aspectRatio: 3/2,
-                          ),
-                        ):
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Image(image: NetworkImage(image_url)),
-                        ),
+
+
+                       video_url!=''?
+                           VideoWidget(play: true,url: video_url,)
+                           : Padding(
+                         padding: const EdgeInsets.symmetric(vertical: 10),
+                         child: Image(image: NetworkImage(image_url)),
+                       ),
+
+
+//                        video_url!=''?
+//                            _videoPlayerController.value.initialized?
+//                        Chewie(
+//                          key: UniqueKey(),
+//                          controller: ChewieController(
+//                            videoPlayerController: _videoPlayerController,
+//                            autoInitialize: true,
+//                            looping: false,
+//                            allowFullScreen: false,
+//                            aspectRatio:  _videoPlayerController.value.aspectRatio,
+//
+//                          ),
+//                        ):CircularProgressIndicator():
+//                        Padding(
+//                          padding: const EdgeInsets.symmetric(vertical: 10),
+//                          child: Image(image: NetworkImage(image_url)),
+//                        ),
                         
                         
                         Padding(
@@ -177,6 +193,8 @@ class _FeedScreenState extends State<FeedScreen>{
                           children: <Widget>[
                             IconButton(icon: Icon(Icons.thumb_up), onPressed: null),
                             Text(likes.toString(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            IconButton(icon: Icon(Icons.comment), onPressed: null),
+                            Text(comcount,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
 
                           ],
                         ),

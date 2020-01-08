@@ -10,13 +10,22 @@ import 'package:provider/provider.dart';
 
 
 class HomeScreen extends StatefulWidget {
+  final String logged;
+
+  const HomeScreen({Key key, this.logged}) : super(key: key);
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState(logged);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final String logged;
+
+
   int _currentTab = 0;
   PageController _pageController;
+
+  _HomeScreenState(this.logged);
 
   @override
   void initState() {

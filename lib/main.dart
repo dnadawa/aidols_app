@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       //Provider.of<UserData>(context).currentUserName = y;
     }
 
-
+    String y;
     return StreamBuilder<FirebaseUser>(
       stream: FirebaseAuth.instance.onAuthStateChanged,
 
@@ -53,18 +53,18 @@ class _MyAppState extends State<MyApp> {
           Provider.of<UserData>(context).currentUserEmail = x;
 
           getName(x,context).then((_){
-            String y = user[0].data['name'];
+             y = user[0].data['name'];
             Provider.of<UserData>(context).currentUserName = y;
             print('User is $y');
           });
 
 
 
-         // print("Email is $x");
+          print("Logged in main.dart is $y");
 
 
 
-          return HomeScreen();
+          return HomeScreen(logged: y,);
         } else {
           return LoginScreen();
         }

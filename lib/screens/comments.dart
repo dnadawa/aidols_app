@@ -6,6 +6,7 @@ import 'package:aidols_app/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class Comments extends StatefulWidget {
 
 
@@ -61,6 +62,7 @@ class _CommentsState extends State<Comments> {
      subscription = collectionReference.snapshots().listen((datasnapshot){
       setState(() {
         comments = datasnapshot.documents;
+
       });
     });
 
@@ -157,7 +159,16 @@ class _CommentsState extends State<Comments> {
                   ),
                 ),
                 IconButton(icon: Icon(Icons.send), onPressed: () async {
+                  int comcount;
 
+                  var document = await Firestore.instance.collection('posts').document(docId);
+                  await document.get().then((d){
+                    comcount = d.data['com_count'];
+                  });
+
+                  document.updateData({
+                    'com_count': comcount+1}
+                  );
 
 
                   final CollectionReference collectionReference  = Firestore.instance.collection("posts")
@@ -166,11 +177,17 @@ class _CommentsState extends State<Comments> {
                     'comment': comment.text,
                     'user': uid,
                     'image': userlist[0].data['profileImageUrl']
-
-
                   };
+
+
+
+
                   await collectionReference.add(data);
                   comment.clear();
+
+
+
+
 
 
                 })
