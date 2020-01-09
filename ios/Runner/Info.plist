@@ -4,6 +4,22 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>This app need to upload images and videos</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>This app need to take photos and videos using camera</string>
+
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app needs to capture videos with sounds</string>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+
+
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

@@ -15,7 +15,7 @@ void main() => runApp(MaterialApp(
   home: SplashScreen(
       seconds: 4,
       navigateAfterSeconds: new MyApp(),
-      imageBackground: AssetImage('assets/images/logo.gif'),
+      imageBackground: AssetImage('assets/images/logo.jpg'),
 
   ),
 ));
