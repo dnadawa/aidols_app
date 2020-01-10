@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       user = subscription.documents;
 //    String y = user[0].data['name'];
 
-      //return y;
+      //retugrn y;
 
       //Provider.of<UserData>(context).currentUserName = y;
     }
