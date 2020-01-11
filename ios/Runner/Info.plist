@@ -5,20 +5,6 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 
-	<key>CFBundleURLTypes</key>
-    <array>
-    	<dict>
-    		<key>CFBundleTypeRole</key>
-    		<string>Editor</string>
-    		<key>CFBundleURLSchemes</key>
-    		<array>
-    			<!-- TODO Replace this value: -->
-    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-    			<string>com.googleusercontent.apps.722279378173-efprqkukslfcbton4encpleu0fm4aite</string>
-    		</array>
-    	</dict>
-    </array>
-
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>This app need to upload images and videos</string>
 
